@@ -40,7 +40,6 @@ body {
 .nav-list li a:hover {
     color: black;
     font-weight: 900;
-    /* Change the color on hover */
 }
 
 .rightNav {
@@ -52,8 +51,8 @@ body {
     background-color: white;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 10px center; /* Adjust the horizontal position as needed */
-    padding: 8px 8px 8px 40px; /* Adjust left padding to make room for the image */
+    background-position: 10px center; 
+    padding: 8px 8px 8px 40px; 
     font-size: 16px;
     color: black;
     border: 2px solid #727171;
