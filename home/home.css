@@ -48,7 +48,8 @@ body {
 }
 
 #search {
-    background-image: url('f/Users/kylag/Documents/GitHub/IN4MTX124/images/Screenshot 2024-04-18 at 1.03.56 PM.png'); /* Use the actual path to your image */
+    
+    background-color: white;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 10px center; /* Adjust the horizontal position as needed */
@@ -60,3 +61,33 @@ body {
     outline: none;
 }
 
+.new-items,
+.my-saved {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 20px 0; 
+    font-size: 30px;
+    border: 1px solid black; 
+    border-radius: 15px;
+    padding: 20px; 
+    width: calc(100% - 40px);
+}
+
+
+.new-items button,
+.my-saved button {
+    padding: 10px 20px; 
+    font-size: 18px; 
+    cursor: pointer;
+    border: 2px solid black;
+    background: none;
+    margin-top: 10px; 
+}
+
+
+.new-items h2,
+.my-saved h2 {
+    margin-bottom: 10px; 
+}
