@@ -51,8 +51,8 @@ body {
     background-image: url('f/Users/kylag/Documents/GitHub/IN4MTX124/images/Screenshot 2024-04-18 at 1.03.56 PM.png'); /* Use the actual path to your image */
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 10px center; /* Adjust the horizontal position as needed */
-    padding: 8px 8px 8px 40px; /* Adjust left padding to make room for the image */
+    background-position: 10px center; 
+    padding: 8px 8px 8px 40px; 
     font-size: 16px;
     color: black;
     border: 2px solid #727171;
@@ -60,3 +60,8 @@ body {
     outline: none;
 }
 
+embed {
+    width: 100%;      
+    height: 100px;     
+    border: none;      
+}

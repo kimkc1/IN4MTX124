@@ -1,27 +1,21 @@
 <!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="home.css">
-
 <html>
 <head>
-    <body>
-        <nav class="navbar">
-            <ul class="nav-list">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Marketplace</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Chat</a></li>
-            </ul>
-            <div class="rightNav">
-                <input type="text" name="search"
-                    id="search" placeholder="Search">
-                <button class="btn btn-sm">Search</button>
-            </div>
-        </nav>
-    </body>
+    <link rel="stylesheet" type="text/css" href="home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+<body>
+    <div id="nav-placeholder"></div>
+
+    <script>
+    $(function(){
+        $("#nav-placeholder").load("navbar.html");
+    });
+    </script>
+
+</body>
 </html>
+
 
 
 
