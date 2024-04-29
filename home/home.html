@@ -1,21 +1,26 @@
 <!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="home.css">
+
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="home.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <body>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li><a href="../home/home.html">Home</a></li>
+                <li><a href="../marketplace/marketplace.html">Marketplace</a></li>
+                <li><a href="../settings/settings.html">Settings</a></li>
+                <li><a href="../profile/profile.html">Profile</a></li>
+                <li><a href="../chat/chat.html">Chat</a></li>
+            </ul>
+            <div class="rightNav">
+                <input type="text" name="search"
+                    id="search" placeholder="Search">
+                <button class="btn btn-sm">Search</button>
+            </div>
+        </nav>
+    </body>
 </head>
-<body>
-    <div id="nav-placeholder"></div>
-
-    <script>
-    $(function(){
-        $("#nav-placeholder").load("navbar.html");
-    });
-    </script>
-
-</body>
 </html>
-
 
 
 
