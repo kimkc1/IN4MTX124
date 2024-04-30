@@ -40,7 +40,6 @@ body {
 .nav-list li a:hover {
     color: black;
     font-weight: 900;
-    /* Change the color on hover */
 }
 
 .rightNav {
@@ -48,11 +47,12 @@ body {
 }
 
 #search {
-    background-image: url('f/Users/kylag/Documents/GitHub/IN4MTX124/images/Screenshot 2024-04-18 at 1.03.56 PM.png'); /* Use the actual path to your image */
+    
+    background-color: white;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 10px center; /* Adjust the horizontal position as needed */
-    padding: 8px 8px 8px 40px; /* Adjust left padding to make room for the image */
+    background-position: 10px center; 
+    padding: 8px 8px 8px 40px; 
     font-size: 16px;
     color: black;
     border: 2px solid #727171;
@@ -60,3 +60,34 @@ body {
     outline: none;
 }
 
+.new-items,
+.my-saved {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 20px 0; 
+    font-size: 30px;
+    border: 1px solid black; 
+    border-radius: 15px;
+    padding: 20px; 
+    width: calc(100% - 40px);
+}
+
+
+.new-items button,
+.my-saved button {
+    padding: 10px 20px; 
+    font-size: 18px; 
+    cursor: pointer;
+    border: 2px solid black;
+    background: none;
+    margin-top: 10px; 
+    border-radius: 15px;
+}
+
+
+.new-items h2,
+.my-saved h2 {
+    margin-bottom: 10px; 
+}
