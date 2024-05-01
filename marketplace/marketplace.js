@@ -10,6 +10,13 @@ const cuurent_items = new Map([
     ["item 2", ["Snowboard", 250.0, "like new burton snowboard", "../images/snowboard.jpeg"]]
 ]);
 
+//todo
+//grab marketplace data from database return as map itemID -> [name,price,description,imagelink]
+function loadMarketPlace()
+{
+    return new Map;
+}
+
 function createFigure(itemData)
 {
     console.log("createing figure");
@@ -58,9 +65,12 @@ function createFigure(itemData)
     product_description.textContent = itemData[itemDescription];
 
     //add compontes to figure 
+    product_anchor.appendChild(product_title);
+    product_anchor.appendChild(product_description);
     item_figure.appendChild(product_anchor);
-    item_figure.appendChild(product_title);
-    item_figure.appendChild(product_description);
+    // item_figure.appendChild(product_anchor);
+    // item_figure.appendChild(product_title);
+    // item_figure.appendChild(product_description);
     console.log("created figure");
     console.log(item_figure);
 

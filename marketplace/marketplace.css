@@ -53,6 +53,14 @@ body {
     height: 100px;     
     border: none;      
 }
+
+
 body {
   background-color: white;
 }
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
