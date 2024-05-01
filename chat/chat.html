@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <!--navbar-->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li><a href="../home/home.html">Home</a></li>
+            <li><a href="../marketplace/marketplace.html">Marketplace</a></li>
+            <li><a href="../settings/settings.html">Settings</a></li>
+            <li><a href="../profile/profile.html">Profile</a></li>
+            <li><a href="../chat/chat.html">Chat</a></li>
+        </ul>
+        <div class="rightNav">
+            <input type="text" name="search"
+                id="search" placeholder="Search">
+            <button class="btn btn-sm">Search</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="contacts">
+            <div class="contact-box">
+                <img src="../images/contact.png">
+                <h5>Contact 1</h5>
+            </div>
+            <div class="contact-box">
+                <img src="../images/contact.png">
+                <h5>Contact 2</h5>
+            </div>
+            <div class="contact-box">
+                <img src="../images/contact.png">
+                <h5>Contact 3</h5>
+            </div>
+        </div>
+        <!--chat section-->
+        <div class="chat-container">
+            <div class="header">
+                <img src="../images/peter.png" alt="contact" class="profile">
+                <h3>Peter the Anteater</h3>
+            </div>
+            <div class="msg-container">
+                <!--example messages-->
+                <div class="sent">
+                    <img src="../images/peter.png" alt="sender" class="profile"> Hello, how are you?
+                </div>
+                <div class="received">
+                    <img src="../images/profile_pic.png" alt="receiver" class="profile"> Hii, im good wbu?!
+                </div>
+                <div class="sent">
+                    <img src="../images/peter.png" alt="sender" class="profile"> I'm doing well!
+                </div>
+            </div>
+            <div class="input">
+                <input type="text" placeholder="Type message here...">
+                <button>Send</button>
+            </div>
+        </div>
+    </div>
+</body>
