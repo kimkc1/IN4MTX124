@@ -64,3 +64,18 @@ a {
   text-decoration: none;
 }
 
+.post {
+  background-color: blue;
+  font-weight: bolder;
+  font-size: 30px;
+  color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+
+
+}
+
