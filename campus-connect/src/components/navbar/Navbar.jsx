@@ -8,7 +8,7 @@ function Navbar() {
         <ul className="nav-list">
           <li><Link to="/">Home</Link></li>
           <li><Link to="./marketplace">Marketplace</Link></li>
-          <li><a href="../settings/settings.html">Settings</a></li>
+          <li><Link to="./settings">Settings</Link></li>
           <li><a href="../profile/profile.html">Profile</a></li>
           <li><a href="../chat/chat.html">Chat</a></li>
         </ul>
