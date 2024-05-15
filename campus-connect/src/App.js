@@ -10,8 +10,8 @@ function App() {
     <Router>
       <Routes>
           <Route exact path="/" element={<HomePage />} />
-          <Route path="/marketplace" element={<Marketplace />} />
-          { <Route path="/settings" element={<Settings />} /> }
+          <Route exact path="/marketplace" element={<Marketplace />} />
+          <Route exact path="/settings" element={<Settings />} /> 
       </Routes>
   </Router>
   );
