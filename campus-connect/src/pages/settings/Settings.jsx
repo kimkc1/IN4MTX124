@@ -10,7 +10,7 @@ function Settings() {
             <div className="settings-container">
                 <div className="profile-card">
                     <div className="profile-img"></div>
-                    <button>Change Profile Photo</button>
+                    <button className='settings-button'>Change Profile Photo</button>
                 </div>
                 <div className="settings">
                     <h2>Notifications</h2>

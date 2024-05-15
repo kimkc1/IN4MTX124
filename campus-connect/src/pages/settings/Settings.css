@@ -51,7 +51,7 @@ body {
     margin: 20px auto; 
 }
 
-button {
+.settings-button {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
