@@ -5,6 +5,8 @@ import HomePage from './pages/home/Home';
 import Marketplace from './pages/marketplace/Marketplace';
 import Settings from './pages/settings/Settings';
 import UploadMarketplace from './pages/marketplace/UploadProduct';
+import Chat from './pages/chat/Chat';
+import Saved from './pages/saved/Saved';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route exact path="/marketplace" element={<Marketplace />} />
           <Route exact path="/marketplace/uploadProduct" element={<UploadMarketplace />} />
           <Route exact path="/settings" element={<Settings />} /> 
+          <Route exact path="/chat" element={<Chat />} /> 
+          <Route exact path="/saved" element={<Saved />} /> 
       </Routes>
   </Router>
   );
