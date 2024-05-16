@@ -17,7 +17,9 @@ function HomePage() {
         
         <section className="my-saved">
           <h2>My Saved</h2>
-          <button>View Saved</button>
+          <Link to="/saved" className="button-link">
+            <button>View Saved</button>
+          </Link>
         </section>
       </main>
     </div>

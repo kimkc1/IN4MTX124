@@ -10,8 +10,8 @@ const itemImageLoc = 3;
 
 // Dummy marketplace data 
 const cuurent_items = new Map([
-    ["item 1", ["7 Iron", 75.0, "Taylormade 7 iron in great condition", "../images/clubs.jpeg"]], 
-    ["item 2", ["Snowboard", 250.0, "like new burton snowboard", "../images/snowboard.jpeg"]]
+    ["item 1", ["7 Iron", 75.0, "Taylormade 7 iron in great condition", "./images/clubs.jpeg"]], 
+    ["item 2", ["Snowboard", 250.0, "like new burton snowboard", "./images/snowboard.jpeg"]]
 ]);
 
 function Marketplace() {
