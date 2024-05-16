@@ -10,7 +10,9 @@ function Navbar() {
           <li><Link to="/marketplace">Marketplace</Link></li>
           <li><Link to="/settings">Settings</Link></li>
           <li><a href="../profile/profile.html">Profile</a></li>
-          <li><a href="../chat/chat.html">Chat</a></li>
+
+          <li><Link to="/chat">Chat</Link></li>
+          
         </ul>
         <div className="rightNav">
           <input type="text" name="search" id="search" placeholder="Search" />
