@@ -1,0 +1,61 @@
+
+.login-app-container {
+    font-family: Inter, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../../images/aldrich.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-container {
+    width: 400px;
+    height: 400px;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.login-form label {
+    text-align: left;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.login-input {
+    padding: 15px;
+    border-radius: 20px;
+    width: 300px
+}
+
+.login-button {
+    width: 50%;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: lavender;  
+}
+
+a {
+    color: rgb(63, 63, 219);
+    text-decoration: underline;
+}
+
+.login-container p {
+    text-align: center;
+}

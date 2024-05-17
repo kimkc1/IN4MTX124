@@ -27,9 +27,6 @@ console.log("**current items: ", cuurent_items);
 //console.log("c items: ", cItmes );
 
 function Marketplace() {
-  
-  
-
 
   const createFigure = (itemData) => {
     console.log("creating element:", itemData);
