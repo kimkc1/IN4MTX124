@@ -23,6 +23,11 @@ class ProductList
 
     }
 
+    findProduct(id)
+    {
+        return this.productsList.find((p) => p.id === parseInt(id));
+    }
+
 //     removeProduct(product)
 //     {
 //         this.productsList.(product);

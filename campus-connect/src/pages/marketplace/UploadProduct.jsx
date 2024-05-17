@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import uploadImg from '../../images/upload.png';
-import './UploadProduct.css';
+import './product.css';
 import Product from './Product';
 import ProductListInstance from './ProductList';
 
@@ -28,7 +28,6 @@ function UploadProduct() {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [desc, setDesc] = useState("");
-    //const [img, setImg] = useState(uploadImg);
 
     const [selectedImage, setSelectedImage] = useState(uploadImg);
 
@@ -78,7 +77,7 @@ function UploadProduct() {
             <Navbar />
             <form className="productInfo">
                 <div className="left">
-                    <button className="uplaodImage">
+                    <div className="uplaodImage">
                        
                         <img className="productImage" src={selectedImage} alt="upload"/>
                         <input
@@ -86,7 +85,7 @@ function UploadProduct() {
                         accept="image/*"
                         onChange={(event) => handleImageChange(event)}
                         />
-                    </button>
+                    </div>
                 </div>
 
                 <div className="right">
@@ -118,9 +117,9 @@ function UploadProduct() {
                 </div>
 
                 <div className="row"> 
-                    <div className="product-buttons">
-                        <button className="post-upload" onClick={handlePostClick}>Post</button>
-                        <button className="remove">Remove</button>
+                    <div className="product-buttons-group">
+                        <button className="product-buttons" onClick={handlePostClick}>Post</button>
+                        <button className="product-buttons">Remove</button>
                     </div>
                 </div>
 

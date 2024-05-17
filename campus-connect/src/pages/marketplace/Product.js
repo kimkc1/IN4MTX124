@@ -1,6 +1,14 @@
 
 import iUpload from '../../images/upload.png'
 
+class id {
+    static count = 1;
+    constructor(){
+        id.count ++;
+        
+    }
+}
+
 
 
 class Product{
@@ -8,18 +16,26 @@ class Product{
     // static item1 = new Product("7 Iron", 75.0, "Taylormade 7 iron in great condition", i1);
     // static item2 = new Product("Snowboard", 250.0, "like new burton snowboard", i2)
 
-    // static id_it = 3;
+   
+
+    
     constructor(name, price, desc, img=iUpload)
     {
+
         this.name = name;
         this.price = price;
         this.desc = desc;
         this.img = img;
-        
-        
+        new id();
+        this.id = id.count;
         
         
 
+    }
+
+    getID()
+    {
+        return this.id;
     }
 
     
