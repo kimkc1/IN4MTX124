@@ -9,6 +9,7 @@ import Chat from './pages/chat/Chat';
 import Saved from './pages/saved/Saved';
 import ProductDetails from './pages/marketplace/ProductDeatils';
 import Login from './pages/login/Login';
+import Profile from './pages/profile/Profile';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route exact path="/chat" element={<Chat />} /> 
             <Route exact path="/saved" element={<Saved />} /> 
             <Route exact path="/homepage" element={<HomePage />} />
+            <Route exact path="/profile" element={<Profile />} />
           </>
       </Routes>
   </Router>

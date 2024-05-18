@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: left;
+    padding: 20px;
+}
+
+.profile-card {
+    background: #fff;
+    padding: 20px; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 10px;
+    width: 300px;
+}
+
+.listings-card {
+    background: #fff;
+    padding: 30px; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 20px;
+    width: 200px;
+}
+
+
+.listings-container {
+    display: flex;
+    justify-content: left;
+    padding: 30px;
+    
+}
