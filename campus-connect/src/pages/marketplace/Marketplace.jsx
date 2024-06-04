@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import './Marketplace.css'
 import { Link } from 'react-router-dom';
 //import Product from './Product';
 import ProductsListInstance from './ProductList';
+import { useProducts } from './ProductContext';
 
 
-const cuurent_items = ProductsListInstance.getProductList();
-console.log("**current items: ", cuurent_items);
+//const cuurent_items = ProductsListInstance.getProductList();
+//const {products} = useProducts;
+//const cuurent_items = products;
+//console.log("**current items: ", products);
 
 function Marketplace() {
+  const { products, fetchProducts } = useProducts(); // Destructure products and fetchProducts from useProducts
+
+  useEffect(() => {
+    fetchProducts(); // Fetch products when the component mounts
+  }, [fetchProducts]); // Ensure useEffect runs only once
+  const cuurent_items = products;
+  console.log("›$**current items: ", products);
 
   const createFigure = (itemData) => {
     console.log("creating element:", itemData);
@@ -34,6 +44,7 @@ function Marketplace() {
 
   const createGallery = () => {
     // console("list of products: ", ...cur)
+    console.log(cuurent_items);
     return (
       <div className="gallery">
         {[...cuurent_items.values()].map(itemData => (

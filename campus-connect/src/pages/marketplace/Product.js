@@ -19,15 +19,22 @@ class Product{
    
 
     
-    constructor(name, price, desc, img=iUpload)
+    constructor(name, price, desc, img=iUpload, old=null)
     {
-
+        if(old != null)
+        {
+            this.id = old
+        }
+        else 
+        {
+            new id();
+            this.id = id.count;
+        }
         this.name = name;
         this.price = price;
         this.desc = desc;
         this.img = img;
-        new id();
-        this.id = id.count;
+        
         
         
 

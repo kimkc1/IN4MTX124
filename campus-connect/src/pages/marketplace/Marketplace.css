@@ -38,12 +38,12 @@ body {
   }
 
   .price {
-    text-align: left;
+    text-align: right;
     font-weight: bold;
   }
 
   .name {
-    text-align: right;
+    text-align: left;
     font-weight: bold;
   }
 

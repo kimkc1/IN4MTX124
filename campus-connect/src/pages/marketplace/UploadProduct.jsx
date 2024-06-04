@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import uploadImg from '../../images/upload.png';
 import './product.css';
 import Product from './Product';
-import ProductListInstance from './ProductList';
+//import ProductListInstance from './ProductList';
+import { useProducts } from './ProductContext';
+
 
 
 
@@ -23,13 +25,22 @@ function checkInput(name,price,desc,img)
 
 function UploadProduct() {
 
-    const [productList, setProductList] = useState(ProductListInstance.getProductList());
-
+    //const [productList, setProductList] = useState(ProductListInstance.getProductList());
+    const { products } = useProducts();
+    const { addProduct } = useProducts();
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [desc, setDesc] = useState("");
+    const [forceUpdate, setForceUpdate] = useState(false);
 
     const [selectedImage, setSelectedImage] = useState(uploadImg);
+    const [imgLoc, setImageLoc] = useState("");
+
+    useEffect(() => {
+        console.log("Products updated:", products); // Log the updated products after the state has been updated
+    }, [products]);
+
+ 
 
     function handleImageChange(event) {
       const file = event.target.files[0];
@@ -37,6 +48,7 @@ function UploadProduct() {
         const reader = new FileReader();
         reader.onload = (e) => {
           setSelectedImage(e.target.result);
+          setImageLoc(`../../images/${file.name}`)
         };
         reader.readAsDataURL(file);
       }
@@ -49,23 +61,25 @@ function UploadProduct() {
 
 
     const handlePostClick = (e) => {
-        if (!checkInput(name,price,desc,selectedImage))
-        {
-            return;
-        }
+        // if (!checkInput(name,price,desc,selectedImage))
+        // {
+        //     return;
+        // }
 
-        console.log("before change: ", productList);
+        console.log("before change: ", products);
         e.preventDefault();
         console.log("Name:", name);
         console.log("Price:", price);
         console.log("Description:", desc);
         console.log("img: ", selectedImage);
-        const add = new Product(name,price,desc,selectedImage);
+        const add = new Product(name,price,desc,imgLoc);
         console.log(add);
-        ProductListInstance.addProduct(add);
-        setProductList(ProductListInstance.getProductList());
+        //ProductListInstance.addProduct(add);
+        //setProductList(ProductListInstance.getProductList());
+        addProduct(add);
+        //setForceUpdate(true);
         //ProductListInstance.push(add);
-        console.log("updated list: ", ProductListInstance.getProductList());
+        console.log("updated list: ", products);
         
     };
 
