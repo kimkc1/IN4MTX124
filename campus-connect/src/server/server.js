@@ -13,8 +13,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
 });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
     price: Number,
     description: String,
     img: String,
-    // Add more fields as needed
+    
 });
 const Product = mongoose.model('Product', productSchema);
 
@@ -67,6 +67,20 @@ app.get('/products', async (req, res) => {
         console.error(error.message);
         res.status(500).json({ message: error.message });
     }
+});
+
+//get maxId
+app.get('/products/maxId', async (req, res) => {
+    try{
+        const product = await Product.findOne({}).sort({ id: -1 }).exec();
+        res.json(product);
+            
+    }
+    catch (error)
+    {
+        console.error("problem getting highets id", error)
+    }
+
 });
 
 // Get a single product

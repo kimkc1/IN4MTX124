@@ -27,11 +27,11 @@ function UploadProduct() {
 
     //const [productList, setProductList] = useState(ProductListInstance.getProductList());
     const { products } = useProducts();
-    const { addProduct } = useProducts();
+    const { addProduct, fetchMaxId } = useProducts();
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [desc, setDesc] = useState("");
-    const [forceUpdate, setForceUpdate] = useState(false);
+
 
     const [selectedImage, setSelectedImage] = useState(uploadImg);
     const [imgLoc, setImageLoc] = useState("");
@@ -73,14 +73,23 @@ function UploadProduct() {
         console.log("Price:", price);
         console.log("Description:", desc);
         console.log("img: ", selectedImage);
-        const add = new Product(name,price,desc,selectedImage);
-        console.log(add);
-        //ProductListInstance.addProduct(add);
-        //setProductList(ProductListInstance.getProductList());
-        addProduct(add);
+        fetchMaxId().then(maxId => {
+            const id = maxId +1;
+            const add = new Product(name,price,desc,selectedImage,id);
+            console.log(add);
+
+            addProduct(add);
+            alert(`${add.name} has been posted`);
+          
+        })
+        // const add = new Product(name,price,desc,selectedImage,id);
+        // console.log(add);
+        // //ProductListInstance.addProduct(add);
+        // //setProductList(ProductListInstance.getProductList());
+        // addProduct(add);
         //setForceUpdate(true);
         //ProductListInstance.push(add);
-        alert(`${add.name} has been posted`);
+        // alert(`${add.name} has been posted`);
         console.log("updated list: ", products);
         
     };
