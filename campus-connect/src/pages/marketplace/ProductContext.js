@@ -20,7 +20,7 @@ export const ProductProvider = ({ children }) => {
         try {
             const response = await axios.get('http://localhost:3000/products');
             const productObjects = response.data.map((item) => {
-                return new Product(item.name, item.price, item.description, item.image, item.id);
+                return new Product(item.name, item.price, item.description, item.img, item.id);
             });
             // Update context with product objects
             setProducts(productObjects);
@@ -35,8 +35,8 @@ export const ProductProvider = ({ children }) => {
     const fetchProductById = async (productId) => {
         try {
             const response = await axios.get('http://localhost:3000/products/byId', { params: { id: productId }});
-            const { id, name, price, description, image } = response.data;
-            return new Product(name,price,description,image,id);
+            const { id, name, price, description, img } = response.data;
+            return new Product(name,price,description,img,id);
         } catch (error) {
             throw new Error('Error fetching product by ID:', error);
         }
@@ -48,8 +48,8 @@ export const ProductProvider = ({ children }) => {
             console.log(newProduct);
             const response = await axios.post('http://localhost:3000/products', newProduct);
             console.log("^^^^^^^^^^", response.data);
-            const { id, name, price, description, image } = response.data;
-            const added = new Product(name,price,description,image,id)
+            const { id, name, price, description, img } = response.data;
+            const added = new Product(name,price,description,img,id)
             
             setProducts([...products, added]);
         } catch (error) {

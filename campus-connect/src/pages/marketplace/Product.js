@@ -2,7 +2,7 @@
 import iUpload from '../../images/upload.png'
 
 class id {
-    static count = 1;
+    static count = 100;
     constructor(){
         id.count ++;
         

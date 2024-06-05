@@ -61,10 +61,11 @@ function UploadProduct() {
 
 
     const handlePostClick = (e) => {
-        // if (!checkInput(name,price,desc,selectedImage))
-        // {
-        //     return;
-        // }
+        if (!checkInput(name,price,desc,selectedImage))
+        {
+            alert("please fill in all inputs");
+            return;
+        }
 
         console.log("before change: ", products);
         e.preventDefault();
@@ -72,13 +73,14 @@ function UploadProduct() {
         console.log("Price:", price);
         console.log("Description:", desc);
         console.log("img: ", selectedImage);
-        const add = new Product(name,price,desc,imgLoc);
+        const add = new Product(name,price,desc,selectedImage);
         console.log(add);
         //ProductListInstance.addProduct(add);
         //setProductList(ProductListInstance.getProductList());
         addProduct(add);
         //setForceUpdate(true);
         //ProductListInstance.push(add);
+        alert(`${add.name} has been posted`);
         console.log("updated list: ", products);
         
     };
