@@ -18,7 +18,7 @@ function Login (){
                 },
                 body: JSON.stringify({ username, password })
             });
-        if (resonse.ok) {
+        if (response.ok) {
             const data = await response.json();
             const token = data.token;
             localStorage.setItem('token', token);
@@ -31,6 +31,10 @@ function Login (){
         catch (error){
             console.error('Login error:', error.message);
         }
+    };
+
+    const handleRegisterRedirect = () => {
+        navigate('/register');
     };
 
     return (
@@ -61,7 +65,7 @@ function Login (){
                         />
                     </div>
                     <button type="submit" className="login-button">Login</button>
-                    <p>Don't have an account? <a href="create_account.html">Create an account.</a></p>
+                    <p>Don't have an account? <span onClick={handleRegisterRedirect} className="register-link">Create an account.</span></p>
                 </form>    
             </div>
         </div>

@@ -1,0 +1,61 @@
+.register-app-container {
+    font-family: Inter, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../../images/register_bg.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.register-container {
+    width: 500px;
+    height: 650px;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h1 {
+    text-align: center;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+} 
+
+.register-form label {
+    text-align: left;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.register-input {
+    padding: 15px;
+    border-radius: 20px;
+    width: 300px;
+}
+
+.register-button {
+    width: 50%;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: rgb(221, 181, 195);
+}
+
+.register-container p {
+    text-align: center;
+}
+
+a {
+    color: rgb(63, 63, 219);
+    text-decoration: underline;
+    cursor: pointer;
+}

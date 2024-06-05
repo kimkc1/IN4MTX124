@@ -208,4 +208,22 @@ app.post('/login', async (req, res) => {
     }
 });
 
+//User registration
+app.post('/register', async(req, res) => {
+    try {
+        const { username, password } = req.body;
+        const existingUser = await User.findOne({ username });
+        if (existingUser){
+            return res.status(400).json({ message: 'User already exists' });
+        }
+        const hashedPassword = await bycrypt.hash(password, 10);
+        const newUser = new User({ username, password: hashedPassword });
+        await newUser.save();
+        res.status(201).json({ message: 'User registration successful' });
+    } 
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+ 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

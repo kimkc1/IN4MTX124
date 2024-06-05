@@ -51,9 +51,10 @@
     background-color: lavender;  
 }
 
-a {
+.register-link {
     color: rgb(63, 63, 219);
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .login-container p {

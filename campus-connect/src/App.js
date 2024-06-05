@@ -10,6 +10,7 @@ import Saved from './pages/saved/Saved';
 import ProductDetails from './pages/marketplace/ProductDeatils';
 import Login from './pages/login/Login';
 import Profile from './pages/profile/Profile';
+import Register from './pages/register/Register';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
               <Route exact path="/saved" element={<Saved />} /> 
               <Route exact path="/homepage" element={<HomePage />} />
               <Route exact path="/profile" element={<Profile />} />
+              <Route exact path="/register" element={<Register />} />
             </>
         </Routes>
       </ProductProvider>
