@@ -1,19 +1,52 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import './Chat.css';
 
 function Chat() {
-    const [messages, setMessages] = useState([
-        { type: 'sent', text: "Hello, is this item availble?" },
-        { type: 'received', text: "Yes when are you available to meet up?" }
-    ]);
-
+    const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
 
-    const handleSendMessage = () => {
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/chats');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setMessages(data);
+            } catch (error) {
+                console.error('Error fetching chat messages:', error);
+            }
+        };
+
+        fetchMessages();
+    }, []);
+
+    const handleSendMessage = async () => {
         if (input.trim()) {
-            setMessages([...messages, { type: 'sent', text: input }]);
+            const newMessage = { sender: 'user', message: input };
+
+            try {
+                const response = await fetch('http://localhost:3000/chats', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newMessage)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setMessages([...messages, data]);
+
+            } catch (error) {
+                console.error('Error saving message:', error);
+            }
+
             setInput('');
         }
     };
@@ -43,9 +76,9 @@ function Chat() {
                     </div>
                     <div className="msg-container">
                         {messages.map((msg, index) => (
-                            <div key={index} className={msg.type}>
-                                <img src={`https://via.placeholder.com/30`} alt={msg.type} className="profile" /> 
-                                {msg.text}
+                            <div key={index} className={msg.sender === 'user' ? 'sent' : 'received'}>
+                                <img src={`https://via.placeholder.com/30`} alt={msg.sender} className="profile" /> 
+                                {msg.message}
                             </div>
                         ))}
                     </div>
