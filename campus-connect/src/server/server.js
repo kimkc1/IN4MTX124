@@ -8,24 +8,34 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(bodyParser.json());
 
-
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => console.log('Connected to MongoDB'));
 
+// Product schema and model
 const productSchema = new mongoose.Schema({
     id: Number,
     name: String,
     price: Number,
     description: String,
-    img: String
+    img: String,
     // Add more fields as needed
 });
 const Product = mongoose.model('Product', productSchema);
 
-app.use(bodyParser.json());
+// Chat schema and model
+const chatSchema = new mongoose.Schema({
+    sender: String,
+    message: String,
+    timestamp: { type: Date, default: Date.now }
+});
+const Chat = mongoose.model('Chat', chatSchema);
 
 // Get all products
 app.get('/products', async (req, res) => {
@@ -61,7 +71,7 @@ app.post('/products', async (req, res) => {
         id: req.body.id,
         name: req.body.name,
         price: req.body.price,
-        description: req.body.desc,
+        description: req.body.description, // Changed req.body.desc to req.body.description
         img: req.body.img
         // Add more fields as needed
     });
@@ -107,6 +117,31 @@ app.delete('/products/:id', async (req, res) => {
         }
         await product.remove();
         res.json({ message: 'Product deleted' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// create chat msg
+app.post('/chats', async (req, res) => {
+    const chatMessage = new Chat({
+        sender: req.body.sender,
+        message: req.body.message
+    });
+
+    try {
+        const newChatMessage = await chatMessage.save();
+        res.status(201).json(newChatMessage);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// get all chat msg
+app.get('/chats', async (req, res) => {
+    try {
+        const chats = await Chat.find();
+        res.json(chats);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
