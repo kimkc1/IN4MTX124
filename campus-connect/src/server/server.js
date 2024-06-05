@@ -195,27 +195,29 @@ app.delete('/products/:id', async (req, res) => {
     }
 });
 
-// create chat msg
-app.post('/chats', async (req, res) => {
-    const chatMessage = new Chat({
-        sender: req.body.sender,
-        message: req.body.message
-    });
-
-    try {
-        const newChatMessage = await chatMessage.save();
-        res.status(201).json(newChatMessage);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+//SAVING USERS
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String
 });
+const User = mongoose.model('User', userSchema);
 
-// get all chat msg
-app.get('/chats', async (req, res) => {
+//User Login
+app.post('/login', async (req, res) => {
     try {
-        const chats = await Chat.find();
-        res.json(chats);
-    } catch (error) {
+        const { username, password } = req.body;
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json( { message: 'Invalid password' });
+        }
+        const token = jwt.sign({userID: user._id}, process.env.JWT_SECRET);
+        res.json({ token });
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
 });

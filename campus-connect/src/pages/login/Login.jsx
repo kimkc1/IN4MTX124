@@ -7,20 +7,31 @@ function Login (){
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
-        //temporary user database for A3
-        const users = new Map([
-            ['kimkc1','campus_connect'],
-            ['fakeuser', 'fakepassword']
-        ]);
-
-        if (users.has(username) && users.get(username) === password){
+        try {
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+        if (resonse.ok) {
+            const data = await response.json();
+            const token = data.token;
+            localStorage.setItem('token', token);
             navigate('/homepage');}
-        else {
+        else if (response.status === 401){
             alert('Invalid username or password.');}
-    }
+        else {
+            throw new Error('Login failed');}
+        }
+        catch (error){
+            console.error('Login error:', error.message);
+        }
+    };
 
     return (
         <div className="login-app-container">
