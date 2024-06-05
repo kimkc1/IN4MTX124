@@ -5,15 +5,15 @@ import i2 from '../../images/snowboard.jpeg'
 import axios from 'axios';
 
 // Dummy data
-const p1 = new Product("7 Iron", 75.0, "Taylormade 7 iron in great condition", i1);
-const p2 = new Product("Snowboard", 250.0, "like new burton snowboard", i2);
-const dummyProducts = [p1,p2]
+// const p1 = new Product("7 Iron", 75.0, "Taylormade 7 iron in great condition", i1);
+// const p2 = new Product("Snowboard", 250.0, "like new burton snowboard", i2);
+// const dummyProducts = [p1,p2]
   
 
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-    const [products, setProducts] = useState([p1,p2]);
+    const [products, setProducts] = useState([]);
 
     //useEffect(() => {
     const fetchProducts = async () => {
@@ -31,6 +31,20 @@ export const ProductProvider = ({ children }) => {
 
         //fetchProducts();
     //}, []);
+
+    const fetchMaxId = async () => {
+        try {
+            console.log("grabbing id");
+            const response = await axios.get('http://localhost:3000/products/maxId');
+            const id = parseInt(response.data.id);
+            return id;
+            
+        }
+        catch(error)
+        {
+            console.error(error);
+        }
+    }
 
     const fetchProductById = async (productId) => {
         try {
@@ -76,7 +90,7 @@ export const ProductProvider = ({ children }) => {
     };
 
     return (
-        <ProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, fetchProductById, setProducts, fetchProducts }}>
+        <ProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, fetchProductById, setProducts, fetchProducts, fetchMaxId }}>
             {children}
         </ProductContext.Provider>
     );
