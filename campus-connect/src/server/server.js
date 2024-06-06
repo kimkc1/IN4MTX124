@@ -66,7 +66,21 @@ const Saved = mongoose.model('Saved', savedSchema);
 app.get('/products', async (req, res) => {
     try {
         const products = await Product.find();
-        res.json(products);
+        const productsWithImages = await Promise.all(products.map(async (product) => {
+            const imagePath = path.join(__dirname, 'images', 'images.json');
+            const existingData = JSON.parse(fs.readFileSync(imagePath));
+            const imageData = existingData[product.id];
+
+            const productI = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                description: product.description,
+                img: imageData
+            };
+            return productI;
+        }));
+        res.json(productsWithImages);
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ message: error.message });
@@ -91,7 +105,21 @@ app.get('/products/byId', async (req, res) => {
         if (product == null) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        res.json(product);
+        try {
+            const imagePath = path.join(__dirname, 'images', 'images.json');
+            const existingData = JSON.parse(fs.readFileSync(imagePath));
+            const imageData = existingData[productId];
+            const productI = {
+                id: productId,
+                name: product.name,
+                price: product.price,
+                description: product.description,
+                img: imageData
+            };
+            res.json(productI);
+        } catch (error) {
+            console.error('Error reading image data:', error);
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -104,11 +132,22 @@ app.post('/products', async (req, res) => {
         name: req.body.name,
         price: req.body.price,
         description: req.body.desc,
-        sellerUsername: req.body.sellerUsername
+        //sellerUsername: req.body.sellerUsername
     });
 
     try {
         const newProduct = await product.save();
+        const imagePath = path.join(__dirname, 'images', 'images.json');
+        const id = newProduct.id;
+        const image = req.body.img;
+        let existingData = {};
+        try {
+            existingData = JSON.parse(fs.readFileSync(imagePath));
+        } catch (error) {
+            console.error('Error reading existing image data:', error);
+        }
+        existingData[id] = image;
+        fs.writeFileSync(imagePath, JSON.stringify(existingData));
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(400).json({ message: error.message });
