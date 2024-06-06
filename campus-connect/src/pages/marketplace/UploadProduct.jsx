@@ -107,7 +107,7 @@ function UploadProduct() {
                         <img className="productImage" src={selectedImage} alt="upload"/>
                         <input
                         type="file"
-                        accept="image/*"
+                        accept="image/jpeg"
                         onChange={(event) => handleImageChange(event)}
                         />
                     </div>

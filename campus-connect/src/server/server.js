@@ -55,6 +55,13 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
+//saved products schema and model
+const savedSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    productIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+});
+const Saved = mongoose.model('Saved', savedSchema);
+
 // Get all products
 app.get('/products', async (req, res) => {
     try {
@@ -224,6 +231,56 @@ app.post('/chats', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+});
+
+app.post('/products/save',  async (req, res) => {
+    console.log("attempting to save", req.body);
+    const {uId, pId} = req.body;
+    try {
+
+        let savedItem = await Saved.findOne({ uId });
+
+        if (savedItem) {
+            savedItem.productIds = [...new Set([...savedItem.productIds, ...pId])];
+        } 
+        else {
+        
+            savedItem = new Saved({
+                userId: uId,
+                productIds: pId
+            });
+        }
+        await savedItem.save();
+        res.status(201).json({message: 'item saved succesfuly'});
+    }
+    catch(error){
+        console.error('could not save product ', error)
+        res.status(500).json({ message: error.message });
+    }
+})
+
+app.get('/products/save',  async (req, res) => {
+    console.log("+++++++++");
+    console.log("attempting to fetch saved products for: ", req.query.uId);
+    const uId = req.query.userId;
+    try {
+        
+        const savedItem = await Saved.findOne({ uId });
+    
+        if (!savedItem) {
+          return res.status(404).json({ message: 'Saved items not found for user' });
+        }
+    
+        
+        const productIds = savedItem.productIds.map(productId => new mongoose.Types.ObjectId(productId));
+        const products = await Product.find({ _id: { $in: productIds } });
+        console.log("got:", products);
+        res.json(products);
+      } catch (err) {
+        console.error('Error retrieving saved items:', err);
+        res.status(500).json({ message: 'Server error' });
+      }
+
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
