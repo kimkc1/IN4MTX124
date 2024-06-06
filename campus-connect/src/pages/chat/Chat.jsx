@@ -5,6 +5,7 @@ import './Chat.css';
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const [activeContact, setActiveContact] = useState('Contact 1');
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -21,11 +22,11 @@ function Chat() {
         };
 
         fetchMessages();
-    }, []);
+    }, [activeContact]);
 
     const handleSendMessage = async () => {
         if (input.trim()) {
-            const newMessage = { sender: 'user', message: input };
+            const newMessage = { sender: 'user', message: input, contact: activeContact };
 
             try {
                 const response = await fetch('http://localhost:3000/chats', {
@@ -51,31 +52,35 @@ function Chat() {
         }
     };
 
+    const handleContactClick = (contact) => {
+        setActiveContact(contact);
+        // Reset messages when switching contacts
+        setMessages([]);
+    };
+
     return (
         <div>
             <Navbar />
             <div className="container">
                 <div className="contacts">
-                    <div className="contact-box">
-                        <img src="https://via.placeholder.com/30" alt="Contact 1" />
-                        <h5>Contact 1</h5>
-                    </div>
-                    <div className="contact-box">
-                        <img src="https://via.placeholder.com/30" alt="Contact 2" />
-                        <h5>Contact 2</h5>
-                    </div>
-                    <div className="contact-box">
-                        <img src="https://via.placeholder.com/30" alt="Contact 3" />
-                        <h5>Contact 3</h5>
-                    </div>
+                    {['Contact 1', 'Contact 2', 'Contact 3'].map((contact, index) => (
+                        <div 
+                            key={index} 
+                            className={`contact-box ${activeContact === contact ? 'active' : ''}`} 
+                            onClick={() => handleContactClick(contact)}
+                        >
+                            <img src="https://via.placeholder.com/30" alt={contact} />
+                            <h5>{contact}</h5>
+                        </div>
+                    ))}
                 </div>
                 <div className="chat-container">
                     <div className="header">
                         <img src="https://via.placeholder.com/30" alt="contact" className="profile" />
-                        <h3>Peter the Anteater</h3>
+                        <h3>{activeContact}</h3>
                     </div>
                     <div className="msg-container">
-                        {messages.map((msg, index) => (
+                        {messages.filter(msg => msg.contact === activeContact).map((msg, index) => (
                             <div key={index} className={msg.sender === 'user' ? 'sent' : 'received'}>
                                 <img src={`https://via.placeholder.com/30`} alt={msg.sender} className="profile" />
                                 {msg.message}
