@@ -230,7 +230,8 @@ app.post('/register', async(req, res) => {
         if (existingUser){
             return res.status(400).json({ message: 'User already exists' });
         }
-        const newUser = new User({ name, email, username, password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ name, email, username, password: hashedPassword });
         await newUser.save();
         res.status(201).json({ message: 'User registration successful' });
     } 
