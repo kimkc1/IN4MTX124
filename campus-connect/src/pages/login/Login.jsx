@@ -19,9 +19,6 @@ function Login (){
                 body: JSON.stringify({ username, password })
             });
         if (response.ok) {
-            const data = await response.json();
-            const token = data.token;
-            localStorage.setItem('token', token);
             navigate('/homepage');}
         else if (response.status === 401){
             alert('Invalid username or password.');}

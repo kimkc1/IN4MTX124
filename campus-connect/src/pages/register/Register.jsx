@@ -26,10 +26,10 @@ function Register(){
             });
             if (response.ok){
                 alert('Account created successfully!');
-                navigate('/login');}
+                navigate('/');}
              else {
                 const errorData = await response.json();
-                alert('Error: ${errorData.message}');}
+                alert(`Error: ${errorData.message}`);}
         }
             catch (error){
                 console.error('Error:', error.message);
