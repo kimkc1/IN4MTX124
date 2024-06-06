@@ -41,7 +41,7 @@ function Chat() {
                 }
 
                 const data = await response.json();
-                setMessages([...messages, data]);
+                setMessages(prevMessages => [...prevMessages, data]);
 
             } catch (error) {
                 console.error('Error saving message:', error);
@@ -77,7 +77,7 @@ function Chat() {
                     <div className="msg-container">
                         {messages.map((msg, index) => (
                             <div key={index} className={msg.sender === 'user' ? 'sent' : 'received'}>
-                                <img src={`https://via.placeholder.com/30`} alt={msg.sender} className="profile" /> 
+                                <img src={`https://via.placeholder.com/30`} alt={msg.sender} className="profile" />
                                 {msg.message}
                             </div>
                         ))}

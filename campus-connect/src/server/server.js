@@ -31,7 +31,6 @@ const productSchema = new mongoose.Schema({
     price: Number,
     description: String,
     img: String,
-    
 });
 const Product = mongoose.model('Product', productSchema);
 
@@ -45,26 +44,21 @@ const Chat = mongoose.model('Chat', chatSchema);
 
 // Get all products
 app.get('/products', async (req, res) => {
-    //console.log('get products');
     try {
         const products = await Product.find();
         const productsWithImages = await Promise.all(products.map(async (product) => {
-            //get image
             const imagePath = path.join(__dirname, 'images', 'images.json');
             const existingData = JSON.parse(fs.readFileSync(imagePath));
             const imageData = existingData[product.id];
 
-            //update json
             const productI = {
                 id: product.id,
                 name: product.name,
                 price: product.price,
-                description: product.description, 
+                description: product.description,
                 img: imageData
-            }
-            //console.log("product: ", productI.name, "with image: ", productI.img);
+            };
             return productI;
-
         }));
         res.json(productsWithImages);
     } catch (error) {
@@ -73,30 +67,25 @@ app.get('/products', async (req, res) => {
     }
 });
 
-//get maxId
+// Get maxId
 app.get('/products/maxId', async (req, res) => {
-    try{
+    try {
         const product = await Product.findOne({}).sort({ id: -1 }).exec();
         res.json(product);
-            
+    } catch (error) {
+        console.error("problem getting highest id", error);
     }
-    catch (error)
-    {
-        console.error("problem getting highets id", error)
-    }
-
 });
 
 // Get a single product
 app.get('/products/byId', async (req, res) => {
     try {
         const productId = req.query.id;
-        //console.log("search by id for:", productId);
         const product = await Product.findOne({ id: productId });
         if (product == null) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        try{
+        try {
             const imagePath = path.join(__dirname, 'images', 'images.json');
             const existingData = JSON.parse(fs.readFileSync(imagePath));
             const imageData = existingData[productId];
@@ -104,19 +93,13 @@ app.get('/products/byId', async (req, res) => {
                 id: productId,
                 name: product.name,
                 price: product.price,
-                description: product.description, 
+                description: product.description,
                 img: imageData
-            }
+            };
             res.json(productI);
-            
-            
-        }
-        catch(error)
-        {
+        } catch (error) {
             console.error('Error reading image data:', error);
         }
-        // res.json(product);
-        // console.log(product.name);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -124,20 +107,15 @@ app.get('/products/byId', async (req, res) => {
 
 // Create a new product
 app.post('/products', async (req, res) => {
-    console.log("adding to db", req.body, );
-    console.log('^^^^^^^^^^^^added');
     const product = new Product({
         id: req.body.id,
         name: req.body.name,
         price: req.body.price,
-        description: req.body.desc, 
-        //img: req.body.img
-       
+        description: req.body.desc,
     });
 
     try {
         const newProduct = await product.save();
-        console.log('bd confirmed: ', newProduct);
         const imagePath = path.join(__dirname, 'images', 'images.json');
         const id = newProduct.id;
         const image = req.body.img;
@@ -147,10 +125,8 @@ app.post('/products', async (req, res) => {
         } catch (error) {
             console.error('Error reading existing image data:', error);
         }
-        console.log("writinf")
-        existingData[id ]= image;
+        existingData[id] = image;
         fs.writeFileSync(imagePath, JSON.stringify(existingData));
-        console.log(`Image data for product ${id} saved successfully`);
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -173,7 +149,6 @@ app.put('/products/:id', async (req, res) => {
         if (req.body.description != null) {
             product.description = req.body.description;
         }
-        // Update other fields as needed
         const updatedProduct = await product.save();
         res.json(updatedProduct);
     } catch (error) {
@@ -195,14 +170,38 @@ app.delete('/products/:id', async (req, res) => {
     }
 });
 
-//SAVING USERS
+// Chat routes
+app.get('/chats', async (req, res) => {
+    try {
+        const chats = await Chat.find().sort({ timestamp: 1 });
+        res.json(chats);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+app.post('/chats', async (req, res) => {
+    const chat = new Chat({
+        sender: req.body.sender,
+        message: req.body.message
+    });
+
+    try {
+        const newChat = await chat.save();
+        res.status(201).json(newChat);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// User schema and model
 const userSchema = new mongoose.Schema({
     username: String,
     password: String
 });
 const User = mongoose.model('User', userSchema);
 
-//User Login
+// User Login
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -212,32 +211,29 @@ app.post('/login', async (req, res) => {
         }
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json( { message: 'Invalid password' });
+            return res.status(401).json({ message: 'Invalid password' });
         }
-        //req.session.user = user;
         res.json({ message: 'Login successful' });
-    }
-    catch (error) {
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-//User registration
-app.post('/register', async(req, res) => {
+// User registration
+app.post('/register', async (req, res) => {
     try {
         const { name, email, username, password } = req.body;
         const existingUser = await User.findOne({ username });
-        if (existingUser){
+        if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, username, password: hashedPassword });
         await newUser.save();
         res.status(201).json({ message: 'User registration successful' });
-    } 
-    catch (error) {
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
- 
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
