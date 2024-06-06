@@ -31,36 +31,35 @@ const productSchema = new mongoose.Schema({
     price: Number,
     description: String,
     img: String,
+    sellerUsername: String // Add seller username to track who created the listing
 });
 const Product = mongoose.model('Product', productSchema);
 
 // Chat schema and model
 const chatSchema = new mongoose.Schema({
     sender: String,
+    receiver: String,
     message: String,
     timestamp: { type: Date, default: Date.now }
 });
 const Chat = mongoose.model('Chat', chatSchema);
 
+// User schema and model
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    username: String,
+    password: String,
+    profilePicture: String,
+    savedListings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+});
+const User = mongoose.model('User', userSchema);
+
 // Get all products
 app.get('/products', async (req, res) => {
     try {
         const products = await Product.find();
-        const productsWithImages = await Promise.all(products.map(async (product) => {
-            const imagePath = path.join(__dirname, 'images', 'images.json');
-            const existingData = JSON.parse(fs.readFileSync(imagePath));
-            const imageData = existingData[product.id];
-
-            const productI = {
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                description: product.description,
-                img: imageData
-            };
-            return productI;
-        }));
-        res.json(productsWithImages);
+        res.json(products);
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ message: error.message });
@@ -73,7 +72,7 @@ app.get('/products/maxId', async (req, res) => {
         const product = await Product.findOne({}).sort({ id: -1 }).exec();
         res.json(product);
     } catch (error) {
-        console.error("problem getting highest id", error);
+        console.error("Problem getting highest id", error);
     }
 });
 
@@ -85,21 +84,7 @@ app.get('/products/byId', async (req, res) => {
         if (product == null) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        try {
-            const imagePath = path.join(__dirname, 'images', 'images.json');
-            const existingData = JSON.parse(fs.readFileSync(imagePath));
-            const imageData = existingData[productId];
-            const productI = {
-                id: productId,
-                name: product.name,
-                price: product.price,
-                description: product.description,
-                img: imageData
-            };
-            res.json(productI);
-        } catch (error) {
-            console.error('Error reading image data:', error);
-        }
+        res.json(product);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -112,21 +97,11 @@ app.post('/products', async (req, res) => {
         name: req.body.name,
         price: req.body.price,
         description: req.body.desc,
+        sellerUsername: req.body.sellerUsername
     });
 
     try {
         const newProduct = await product.save();
-        const imagePath = path.join(__dirname, 'images', 'images.json');
-        const id = newProduct.id;
-        const image = req.body.img;
-        let existingData = {};
-        try {
-            existingData = JSON.parse(fs.readFileSync(imagePath));
-        } catch (error) {
-            console.error('Error reading existing image data:', error);
-        }
-        existingData[id] = image;
-        fs.writeFileSync(imagePath, JSON.stringify(existingData));
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -170,36 +145,19 @@ app.delete('/products/:id', async (req, res) => {
     }
 });
 
-// Chat routes
-app.get('/chats', async (req, res) => {
+// Fetch user data by username
+app.get('/user', async (req, res) => {
+    const username = req.query.username;
     try {
-        const chats = await Chat.find().sort({ timestamp: 1 });
-        res.json(chats);
+        const user = await User.findOne({ username }).populate('savedListings');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
-
-app.post('/chats', async (req, res) => {
-    const chat = new Chat({
-        sender: req.body.sender,
-        message: req.body.message
-    });
-
-    try {
-        const newChat = await chat.save();
-        res.status(201).json(newChat);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
-
-// User schema and model
-const userSchema = new mongoose.Schema({
-    username: String,
-    password: String
-});
-const User = mongoose.model('User', userSchema);
 
 // User Login
 app.post('/login', async (req, res) => {
@@ -213,7 +171,7 @@ app.post('/login', async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-        res.json({ message: 'Login successful' });
+        res.json({ message: 'Login successful', username: user.username });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -233,6 +191,38 @@ app.post('/register', async (req, res) => {
         res.status(201).json({ message: 'User registration successful' });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+});
+
+// Fetch chat messages between two users
+app.get('/chats', async (req, res) => {
+    try {
+        const { sender, receiver } = req.query;
+        const chats = await Chat.find({
+            $or: [
+                { sender, receiver },
+                { sender: receiver, receiver: sender }
+            ]
+        }).sort({ timestamp: 1 });
+        res.json(chats);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Post a new chat message
+app.post('/chats', async (req, res) => {
+    const chat = new Chat({
+        sender: req.body.sender,
+        receiver: req.body.receiver,
+        message: req.body.message
+    });
+
+    try {
+        const newChat = await chat.save();
+        res.status(201).json(newChat);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 });
 
