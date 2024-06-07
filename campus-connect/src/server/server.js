@@ -10,11 +10,23 @@ const MongoStore = require('connect-mongo');
 
 require('dotenv').config();
 
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } 
+  }));
+
+
+
+
 
 mongoose.connect(process.env.MONGODB_URI, {
     // useNewUrlParser: true,
@@ -217,6 +229,7 @@ app.post('/login', async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
+        // req.session.userId = user._id;
         res.json({ message: 'Login successful', username: user.username });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -320,6 +333,17 @@ app.get('/products/save',  async (req, res) => {
         res.status(500).json({ message: 'Server error' });
       }
 
+});
+
+app.post('/testsession', async (req, res) => {
+    req.session.testdata = 'test';
+    res.status(201).json({ message: 'added session data' });
+
+});
+
+app.get('/testsession', async (req, res) => {
+    console.log(req.session.testdata);
+    res.status(201).json({ message: req.session.testdata });
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
