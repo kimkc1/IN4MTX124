@@ -1,6 +1,6 @@
 # IN4MTX124
 
-To run the program make sure you are in the campus-connect directory 
+To run the program make sure you are in the campus-connect directory \n
   cd campus-connect 
 Make sure all front end dependcies are installed 
   npm install 
