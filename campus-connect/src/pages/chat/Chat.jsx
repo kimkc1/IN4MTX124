@@ -5,12 +5,13 @@ import './Chat.css';
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
-    const [activeContact, setActiveContact] = useState('Contact 1');
+    const [activeContact, setActiveContact] = useState('Peter'); 
+    const [currentUser] = useState('fakeuser'); // hardcoded current user
 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const response = await fetch('http://localhost:3000/chats');
+                const response = await fetch(`http://localhost:3000/chats?sender=${currentUser}&receiver=${activeContact}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -22,11 +23,11 @@ function Chat() {
         };
 
         fetchMessages();
-    }, [activeContact]);
+    }, [activeContact, currentUser]);
 
     const handleSendMessage = async () => {
         if (input.trim()) {
-            const newMessage = { sender: 'user', message: input, contact: activeContact };
+            const newMessage = { sender: currentUser, receiver: activeContact, message: input };
 
             try {
                 const response = await fetch('http://localhost:3000/chats', {
@@ -52,22 +53,16 @@ function Chat() {
         }
     };
 
-    const handleContactClick = (contact) => {
-        setActiveContact(contact);
-        // Reset messages when switching contacts
-        setMessages([]);
-    };
-
     return (
         <div>
             <Navbar />
             <div className="container">
                 <div className="contacts">
-                    {['Contact 1', 'Contact 2', 'Contact 3'].map((contact, index) => (
+                    {['Peter'].map((contact, index) => (
                         <div 
                             key={index} 
                             className={`contact-box ${activeContact === contact ? 'active' : ''}`} 
-                            onClick={() => handleContactClick(contact)}
+                            onClick={() => setActiveContact(contact)}
                         >
                             <img src="https://via.placeholder.com/30" alt={contact} />
                             <h5>{contact}</h5>
@@ -80,10 +75,10 @@ function Chat() {
                         <h3>{activeContact}</h3>
                     </div>
                     <div className="msg-container">
-                        {messages.filter(msg => msg.contact === activeContact).map((msg, index) => (
-                            <div key={index} className={msg.sender === 'user' ? 'sent' : 'received'}>
+                        {messages.map((msg, index) => (
+                            <div key={index} className={`message ${msg.sender === currentUser ? 'sent' : 'received'}`}>
                                 <img src={`https://via.placeholder.com/30`} alt={msg.sender} className="profile" />
-                                {msg.message}
+                                <div className="message-text">{msg.message}</div>
                             </div>
                         ))}
                     </div>
