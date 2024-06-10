@@ -229,7 +229,7 @@ app.post('/login', async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-        // req.session.userId = user._id;
+        //req.session.userId = user._id;
         res.json({ message: 'Login successful', username: user.username });
     } catch (error) {
         res.status(500).json({ message: error.message });
